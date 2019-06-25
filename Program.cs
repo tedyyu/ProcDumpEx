@@ -148,15 +148,21 @@ namespace ProcDumpEx
 
                         //let procdump hook this process                
                         var args = new List<string>(extraArgs);
-                        //Assume the last arg is the dump folder path
-                        if (extraArgs.Count > 1)
+                        int index = 0;
+                        if (extraArgs.Count >= 1)
                         {
-                            args.Insert(args.Count - 1, e.NewEvent.Properties["ProcessID"].Value.ToString()); //PID
+                            //Assume the last arg is the dump folder path, insert pid before it
+                            if (extraArgs[extraArgs.Count - 1].Contains("\\"))
+                            {
+                                index = extraArgs.Count - 1;
+                            }
+                            else
+                            {
+                                //otherwise pid is the last position
+                                index = args.Count;
+                            }
                         }
-                        else
-                        {
-                            args.Insert(0, String.Format("{0}", e.NewEvent.Properties["ProcessID"].Value.ToString())); //PID
-                        }
+                        args.Insert(index, String.Format("{0}", e.NewEvent.Properties["ProcessID"].Value.ToString())); //PID
                         Console.WriteLine("Launch procdump.exe {0}", string.Join(" ", args));
                         var p = Process.Start("procdump.exe", string.Join(" ", args));
                         monitoredProcesses.Add(p);
@@ -182,15 +188,21 @@ namespace ProcDumpEx
                     Console.WriteLine("Found one process {0} already running, let's monitor it first.", p.ProcessName.ToLower() + ".exe");
                     //let procdump hook this process                
                     var args = new List<string>(extraArgs);
-                    //Assume the last arg is the dump folder path
-                    if (extraArgs.Count > 1)
+                    int index = 0;
+                    if (extraArgs.Count >= 1)
                     {
-                        args.Insert(args.Count - 1, String.Format("{0}", p.Id)); //PID
+                        //Assume the last arg is the dump folder path, insert pid before it
+                        if (extraArgs[extraArgs.Count - 1].Contains("\\"))
+                        {
+                            index = extraArgs.Count - 1;
+                        }
+                        else
+                        {
+                            //otherwise pid is the last position
+                            index = args.Count;
+                        }
                     }
-                    else
-                    {
-                        args.Insert(0, String.Format("{0}", p.Id)); //PID
-                    }
+                    args.Insert(index, String.Format("{0}", p.Id)); //PID                    
                     Console.WriteLine("Launch procdump.exe {0}", string.Join(" ", args));
                     var newProcess = Process.Start("procdump.exe", string.Join(" ", args));
                     monitoredProcesses.Add(newProcess);
