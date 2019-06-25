@@ -20,6 +20,8 @@ The same logic happens to "-w" option in that it only monitors the next ONE proc
 
 That's why I decide to enhance it with a new wrapper named ProcDumpEx. It can dump multiple processes in one single command. Use "-d" option I invented to work with existing processes, and "-w" option to wait for certain processes.
 
+**NOTE: This tool uses WMI to check new process event and thus need *administrative* priviledge to run. You can download the executable from the release tab.
+
 Here are some examples:
 
 1. Dump all the running notepad.exe processes
