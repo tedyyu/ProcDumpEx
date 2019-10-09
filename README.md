@@ -18,7 +18,7 @@ Sysinternals - www.sysinternals.com
 
 The same logic happens to "-w" option in that it only monitors the next ONE process started afterwards.
 
-That's why I decide to enhance it with a new wrapper named ProcDumpEx. It can dump multiple processes in one single command. Use "-d" option I invented to work with existing processes, and "-w" option to wait for certain processes.
+That's why I decide to enhance it with a new wrapper named ProcDumpEx. It can dump multiple processes in one single command. Use "-d" option I invented to work with existing processes, and "-w" option to wait for certain processes. You can also use all the existing options provided by procdump utility.
 
 **NOTE: This tool uses WMI to check new process event and thus need *administrative* priviledge to run. You can download the executable from the release tab.
 
@@ -51,6 +51,11 @@ A more realistic example is to dump process when a performance counter hits (-p 
 5. Dump following processes when the system total CPU hits 80%.
 ```
 procdumpex -ma -s 2 -n 3  -w "chrome.exe,wmplayer.exe" -d "chrome.exe,wmplayer.exe"  -p "\Processor(_Total)\% Processor Time" 80 C:\temp\dump\PROCESSNAME_PID_YYMMDD_HHMMSS.dmp
+```
+
+6. Dump all (actually up to 100) first chance exceptions (-e 1) of a deferred launched image names.
+```
+ProcDumpEx.exe -ma -e 1 -n 100 -w foobar.exe
 ```
 
 Another good feature is you just need to click CTRL+C to clean up all command windows that are opened.
