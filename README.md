@@ -26,31 +26,31 @@ Here are some examples:
 
 1. Dump all the running notepad.exe processes
 ```
-procdumpex -ma -d notepad.exe
+procdumpex -ma -e -d notepad.exe
 ```
 
 2. Dump all notepad.exe processes started from now on
 ```
-procdumpex -ma -e notepad.exe
+procdumpex -ma -e -w notepad.exe
 ```
 
 3. Combine both cases above
 ```
-procdumpex -ma -e notepad.exe -d notepad.exe
+procdumpex -ma -e -w notepad.exe -d notepad.exe
 ```
 
 You can list multiple process names with comma separated in one command.
 
 4. Dump all notepad.exe and calc.exe started later on when they use more than 30% CPU for 3 seconds
 ```
-procdumpex -ma -c 30 -s 3 -e "notepad.exe,calc.exe"
+procdumpex -ma -e -c 30 -s 3 -w "notepad.exe,calc.exe"
 ```
 
 A more realistic example is to dump process when a performance counter hits (-p option provided by procdump), for example:
 
 5. Dump following processes when the system total CPU hits 80%.
 ```
-procdumpex -ma -s 2 -n 3  -w "chrome.exe,wmplayer.exe" -d "chrome.exe,wmplayer.exe"  -p "\Processor(_Total)\% Processor Time" 80 C:\temp\dump\PROCESSNAME_PID_YYMMDD_HHMMSS.dmp
+procdumpex -ma -e -s 2 -n 3  -w "chrome.exe,wmplayer.exe" -d "chrome.exe,wmplayer.exe"  -p "\Processor(_Total)\% Processor Time" 80 C:\temp\dump\PROCESSNAME_PID_YYMMDD_HHMMSS.dmp
 ```
 
 6. Dump all (actually up to 100) first chance exceptions (-e 1) of a deferred launched image names.
